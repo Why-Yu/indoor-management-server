@@ -1,6 +1,5 @@
 package com.whyyu.indoormanagementserver.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.whyyu.indoormanagementserver.entity.WiFi;
 import com.whyyu.indoormanagementserver.repo.WiFiRepo;
 import com.whyyu.indoormanagementserver.util.PageParam;

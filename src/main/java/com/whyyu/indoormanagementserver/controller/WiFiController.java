@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * @author WhyYu
@@ -27,7 +26,6 @@ public class WiFiController {
 
     @PostMapping("/table/data")
     public CommonResult<Page<WiFi>> getPageData(@RequestBody PageParam pageParam) {
-        System.out.println(pageParam);
         Page<WiFi> resultPage = wifiService.findAllByPage(pageParam);
         return CommonResult.success(resultPage);
     }
@@ -36,7 +34,6 @@ public class WiFiController {
     public CommonResult<String> importData(@RequestBody JSONObject jsonParam) {
         try {
             ArrayList<WiFi> excelData = ExcelReader.read(jsonParam.getString("filePath"), WiFi.class);
-            System.out.println(excelData);
             wifiService.saveAll(excelData);
         } catch ( Exception ignored) {
         }
