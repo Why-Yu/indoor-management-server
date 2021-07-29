@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -23,7 +24,7 @@ public class ExcelReader {
     public static List<String> supportTypeList =
             Arrays.asList("int", "Integer", "float", "Float", "long", "Long", "double", "Double", "String");
 
-    public static ArrayList read(String filePath, Class clazz) throws Exception {
+    public static ArrayList read(File file, Class clazz) throws Exception {
         // 将class的set函数以<name, setName()>记录到map中，之后调用把值注入具体实例
         // 同时存储属性，以便找到具体对应的set函数
         Map<String, Method> setMethodMap = new HashMap<>(10);
@@ -43,7 +44,7 @@ public class ExcelReader {
         }
 
         ArrayList excelData = new ArrayList<>();
-        FileInputStream fileInputStream = new FileInputStream(filePath);
+        FileInputStream fileInputStream = new FileInputStream(file);
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
         Sheet sheet = workbook.getSheetAt(0);
         int lastRowNum = sheet.getLastRowNum();
@@ -63,6 +64,10 @@ public class ExcelReader {
             try {
                 for (int j = 0; j < lastCellNum; j++) {
                     Cell cell = row.getCell(j);
+                    // 有些时候cell会是null,避免空指针调用getCellType
+                    if (cell == null) {
+                        continue;
+                    }
                     Object value;
                     Method set = setMethodMap.get(fieldList.get(j));
                     switch (cell.getCellType()) {
@@ -78,7 +83,7 @@ public class ExcelReader {
                     }
                 }
             } catch (Exception e) {
-                throw new Exception("该路径下 " + filePath + " 文件内容有誤");
+                throw new Exception("该路径下 " + file.getPath() + " 文件内容有誤");
             }
             excelData.add(instance);
         }
@@ -87,9 +92,9 @@ public class ExcelReader {
 
 
     public static void main(String[] args) {
+        File file = new File("C:\\Users\\Dell\\Desktop\\诗琳通CGCS2000控制点及设备基础数据\\四楼\\四楼WiFi.xlsx");
         try {
-            ArrayList<WiFi> excelData = ExcelReader.read("C:\\Users\\Dell\\Desktop\\诗琳通CGCS2000控制点及设备基础数据\\四楼\\四楼WiFi.xlsx", WiFi.class);
-            System.out.println(excelData);
+            ArrayList<WiFi> excelData = ExcelReader.read(file, WiFi.class);
         } catch (Exception e) {
             System.out.println("!!!");
         }

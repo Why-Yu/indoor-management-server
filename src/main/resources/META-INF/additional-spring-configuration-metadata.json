@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "file.targetPath",
+      "type": "java.lang.String",
+      "description": "文件上传的目标路径."
+    }
+  ]
+}
