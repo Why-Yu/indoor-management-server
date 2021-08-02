@@ -46,4 +46,8 @@ public class BlueToothService {
     public List<BlueTooth> findAll() {
         return blueToothRepo.findAll();
     }
+
+    public long count() {
+        return blueToothRepo.count();
+    }
 }

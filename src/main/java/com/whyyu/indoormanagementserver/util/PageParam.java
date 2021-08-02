@@ -2,7 +2,7 @@ package com.whyyu.indoormanagementserver.util;
 
 /**
  * @author WhyYu
- * @Description
+ * @Description 分页请求参数包装
  * @Date 2021/7/26 17:55
  */
 public class PageParam {

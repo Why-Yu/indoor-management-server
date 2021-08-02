@@ -16,7 +16,8 @@ import java.util.*;
 
 /**
  * @author WhyYu
- * @Description
+ * @Description 读取AP、WiFi、BlueTooth三类数据，使用时需要注意的是excel表格的列顺序要和实体类的属性顺序一致<br>
+ * 不然在自动注入的时候，属性就注入错位置了
  * @Date 2021/7/26 15:14
  */
 public class ExcelReader {

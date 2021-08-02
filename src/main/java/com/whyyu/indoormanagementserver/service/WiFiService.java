@@ -46,4 +46,8 @@ public class WiFiService {
     public List<WiFi> findAll() {
         return wifiRepo.findAll();
     }
+
+    public long count() {
+        return wifiRepo.count();
+    }
 }

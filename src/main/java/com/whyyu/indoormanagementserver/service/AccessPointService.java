@@ -46,4 +46,8 @@ public class AccessPointService {
     public List<AccessPoint> findAll() {
         return accessPointRepo.findAll();
     }
+
+    public long count() {
+        return accessPointRepo.count();
+    }
 }
