@@ -2,6 +2,7 @@ package com.whyyu.indoormanagementserver.controller;
 
 import com.whyyu.indoormanagementserver.service.AccessPointService;
 import com.whyyu.indoormanagementserver.service.BlueToothService;
+import com.whyyu.indoormanagementserver.service.ShapeModelService;
 import com.whyyu.indoormanagementserver.service.WiFiService;
 import com.whyyu.indoormanagementserver.util.CommonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class DashBoardController {
     AccessPointService accessPointService;
     @Autowired
     BlueToothService blueToothService;
+    @Autowired
+    ShapeModelService shapeModelService;
 
     @GetMapping("/data")
     public CommonResult<HashMap<String, Long>> getAllTableCount() {
@@ -32,6 +35,7 @@ public class DashBoardController {
         resultMap.put("WiFi", wiFiService.count());
         resultMap.put("AP", accessPointService.count());
         resultMap.put("BlueTooth", blueToothService.count());
+        resultMap.put("IndoorTopo", shapeModelService.count());
         return CommonResult.success(resultMap);
     }
 }

@@ -2,13 +2,18 @@ package com.whyyu.indoormanagementserver.service;
 
 import com.whyyu.indoormanagementserver.entity.AccessPoint;
 import com.whyyu.indoormanagementserver.repo.AccessPointRepo;
+import com.whyyu.indoormanagementserver.util.ExcelReader;
 import com.whyyu.indoormanagementserver.util.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +25,8 @@ import java.util.List;
 public class AccessPointService {
     @Autowired
     AccessPointRepo accessPointRepo;
+    @Value("${file.targetPath}")
+    private String targetPath;
 
     public List<AccessPoint> saveAll(Iterable<AccessPoint> entities) {
         return accessPointRepo.saveAll(entities);
@@ -49,5 +56,25 @@ public class AccessPointService {
 
     public long count() {
         return accessPointRepo.count();
+    }
+
+    public void importData(MultipartFile file) {
+        ArrayList<AccessPoint> excelData = new ArrayList<>();
+        File parentFile = new File(targetPath + "Ap");
+        // 先检查存储目录是否存在
+        if ( !parentFile.exists() ) {
+            parentFile.mkdirs();
+        }
+        // 生成新的存储文件对象
+        String fileName = file.getOriginalFilename();
+        File storingFile = new File(parentFile.getPath() + "/" + fileName);
+        // 读取excel
+        try {
+            file.transferTo(storingFile);
+            excelData = ExcelReader.read(storingFile, AccessPoint.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        saveAll(excelData);
     }
 }
