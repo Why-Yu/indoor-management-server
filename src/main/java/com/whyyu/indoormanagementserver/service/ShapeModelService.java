@@ -38,6 +38,25 @@ public class ShapeModelService {
         return shapeModelRepo.findAll(pageable);
     }
 
+    public int deleteByShapeModelId(Integer shapeModelId) {
+        return shapeModelRepo.deleteByShapeModelId(shapeModelId);
+    }
+
+    public int addShapeModel(ShapeModel shapeModel) {
+        shapeModelRepo.save(shapeModel);
+        return 1;
+    }
+
+    public int updateShapeModel(ShapeModel shapeModel) {
+        return shapeModelRepo.updateShapeModel(shapeModel.getIndex(), shapeModel.getBuildId(), shapeModel.getBeginId(),
+                shapeModel.getBeginX(), shapeModel.getEndY(), shapeModel.getEndId(),
+                shapeModel.getEndX(), shapeModel.getEndY(), shapeModel.getFloor());
+    }
+
+    public List<ShapeModel> findAll() {
+        return shapeModelRepo.findAll();
+    }
+
     public long count() {
         return shapeModelRepo.count();
     }
