@@ -27,6 +27,8 @@ public class DashBoardController {
     ShapeModelService shapeModelService;
     @Autowired
     TilesService tilesService;
+    @Autowired
+    TdTilesService tdTilesService;
 
     @GetMapping("/data")
     public CommonResult<HashMap<String, Long>> getAllTableCount() {
@@ -36,6 +38,7 @@ public class DashBoardController {
         resultMap.put("BlueTooth", blueToothService.count());
         resultMap.put("IndoorTopo", shapeModelService.count());
         resultMap.put("Tiles", tilesService.count());
+        resultMap.put("3dTiles", tdTilesService.count());
         return CommonResult.success(resultMap);
     }
 }
