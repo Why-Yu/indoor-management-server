@@ -73,6 +73,7 @@ public class TdTilesService {
             parentFile.mkdirs();
         }
         // 生成新的存储文件对象
+        // 注意这里的fileName分隔符是/，我们在代码里统一使用/吧，但是File在windows默认是\
         String fileName = file.getOriginalFilename();
         if (fileName != null) {
             int startIndex = fileName.indexOf("/");

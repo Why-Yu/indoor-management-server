@@ -69,6 +69,11 @@ public class TilesService {
         // 这里fileName就和colExtension是一样的
         String fileName = file.getOriginalFilename();
         String storingPath = tilesPathBuild(name, zoom, row, fileName);
+        File storingDirectory = new File(storingPath.substring(0, storingPath.lastIndexOf("/")));
+        // 需要检查子目录是否存在，不然transferTo会出错
+        if ( !storingDirectory.exists()) {
+            storingDirectory.mkdirs();
+        }
         File storingFile = new File(storingPath);
         // 把临时文件转移到存储目标中
         try {
