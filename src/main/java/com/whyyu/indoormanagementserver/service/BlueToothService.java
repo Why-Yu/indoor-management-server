@@ -71,7 +71,7 @@ public class BlueToothService {
         // 读取excel
         try {
             file.transferTo(storingFile);
-            excelData = ExcelReader.read(storingFile, BlueTooth.class);
+            excelData = ExcelReader.readExcel(storingFile, BlueTooth.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

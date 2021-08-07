@@ -71,7 +71,7 @@ public class AccessPointService {
         // 读取excel
         try {
             file.transferTo(storingFile);
-            excelData = ExcelReader.read(storingFile, AccessPoint.class);
+            excelData = ExcelReader.readExcel(storingFile, AccessPoint.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

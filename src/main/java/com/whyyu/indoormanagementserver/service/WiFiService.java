@@ -71,7 +71,7 @@ public class WiFiService {
         // 读取excel
         try {
             file.transferTo(storingFile);
-            excelData = ExcelReader.read(storingFile, WiFi.class);
+            excelData = ExcelReader.readExcel(storingFile, WiFi.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

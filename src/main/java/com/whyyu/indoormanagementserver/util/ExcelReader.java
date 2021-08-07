@@ -25,7 +25,7 @@ public class ExcelReader {
     public static List<String> supportTypeList =
             Arrays.asList("int", "Integer", "float", "Float", "long", "Long", "double", "Double", "String");
 
-    public static ArrayList read(File file, Class clazz) throws Exception {
+    public static ArrayList readExcel(File file, Class clazz) throws Exception {
         // 将class的set函数以<name, setName()>记录到map中，之后调用把值注入具体实例
         // 同时存储属性，以便找到具体对应的set函数
         Map<String, Method> setMethodMap = new HashMap<>(10);
@@ -88,6 +88,7 @@ public class ExcelReader {
             }
             excelData.add(instance);
         }
+        workbook.close();
         return excelData;
     }
 
@@ -95,7 +96,7 @@ public class ExcelReader {
     public static void main(String[] args) {
         File file = new File("C:\\Users\\Dell\\Desktop\\诗琳通CGCS2000控制点及设备基础数据\\四楼\\四楼WiFi.xlsx");
         try {
-            ArrayList<WiFi> excelData = ExcelReader.read(file, WiFi.class);
+            ArrayList<WiFi> excelData = ExcelReader.readExcel(file, WiFi.class);
         } catch (Exception e) {
             System.out.println("!!!");
         }
