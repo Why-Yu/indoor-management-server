@@ -1,8 +1,8 @@
 package com.whyyu.indoormanagementserver.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.whyyu.indoormanagementserver.entity.Dem;
-import com.whyyu.indoormanagementserver.service.DemService;
+import com.whyyu.indoormanagementserver.entity.Poi;
+import com.whyyu.indoormanagementserver.service.PoiService;
 import com.whyyu.indoormanagementserver.util.CommonResult;
 import com.whyyu.indoormanagementserver.util.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +15,24 @@ import java.util.List;
 /**
  * @author WhyYu
  * @Description
- * @Date 2021/8/5 10:15
+ * @Date 2021/8/9 15:31
  */
 @RestController
-@RequestMapping("/Dem")
-public class DemController {
+@RequestMapping("/Poi")
+public class PoiController {
     @Autowired
-    DemService demService;
+    PoiService poiService;
 
     @PostMapping("/table/data")
-    public CommonResult<Page<Dem>> getPageData(@RequestBody PageParam pageParam) {
-        Page<Dem> resultPage = demService.findAllByPage(pageParam);
+    public CommonResult<Page<Poi>> getPageData(@RequestBody PageParam pageParam) {
+        Page<Poi> resultPage = poiService.findAllByPage(pageParam);
         return CommonResult.success(resultPage);
     }
 
     @PostMapping("/importData")
-    public CommonResult<String> importData(@RequestParam("file") MultipartFile file, Dem dem) {
+    public CommonResult<String> importData(@RequestParam("file") MultipartFile file) {
         if (file != null) {
-            demService.importData(file, dem);
+            poiService.importData(file);
             return CommonResult.success("import success");
         } else {
             return CommonResult.failed("need to select one file at least");
@@ -41,21 +41,21 @@ public class DemController {
 
     @PostMapping("/table/delete")
     public CommonResult<Integer> deleteData(@RequestBody JSONObject jsonParam) {
-        return CommonResult.success(demService.deleteByDemId(jsonParam.getInteger("index")));
+        return CommonResult.success(poiService.deleteByPoiId(jsonParam.getInteger("index")));
     }
 
     @PostMapping("/table/create")
-    public CommonResult<Integer> createData(@RequestBody Dem dem) {
-        return CommonResult.success(demService.addDem(dem));
+    public CommonResult<Integer> createData(@RequestBody Poi poi) {
+        return CommonResult.success(poiService.addPoi(poi));
     }
 
     @PostMapping("/table/update")
-    public CommonResult<Integer> updateData(@RequestBody Dem dem) {
-        return CommonResult.success(demService.updateDem(dem));
+    public CommonResult<Integer> updateData(@RequestBody Poi poi) {
+        return CommonResult.success(poiService.updatePoi(poi));
     }
 
     @GetMapping("test")
-    public CommonResult<List<Dem>> getAllData() {
-        return CommonResult.success(demService.findAll());
+    public CommonResult<List<Poi>> getAllData() {
+        return CommonResult.success(poiService.findAll());
     }
 }

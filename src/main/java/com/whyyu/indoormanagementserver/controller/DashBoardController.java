@@ -33,6 +33,10 @@ public class DashBoardController {
     PlanService planService;
     @Autowired
     RemoteImageService remoteImageService;
+    @Autowired
+    PoiService poiService;
+    @Autowired
+    DemService demService;
 
     @GetMapping("/data")
     public CommonResult<HashMap<String, Long>> getAllTableCount() {
@@ -45,6 +49,8 @@ public class DashBoardController {
         resultMap.put("3dTiles", tdTilesService.count());
         resultMap.put("Plan", planService.count());
         resultMap.put("RemoteImage", remoteImageService.count());
+        resultMap.put("Poi", poiService.count());
+        resultMap.put("Dem", demService.count());
         return CommonResult.success(resultMap);
     }
 }

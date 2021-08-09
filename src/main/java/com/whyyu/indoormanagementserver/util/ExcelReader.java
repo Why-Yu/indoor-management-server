@@ -1,6 +1,6 @@
 package com.whyyu.indoormanagementserver.util;
 
-import com.whyyu.indoormanagementserver.entity.WiFi;
+import com.whyyu.indoormanagementserver.entity.Poi;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -16,8 +16,9 @@ import java.util.*;
 
 /**
  * @author WhyYu
- * @Description 读取AP、WiFi、BlueTooth三类数据，使用时需要注意的是excel表格的列顺序要和实体类的属性顺序一致<br>
+ * @Description 读取excel数据，使用时需要注意的是excel表格的列顺序要和注入的实体类的属性顺序一致<br>
  * 不然在自动注入的时候，属性就注入错位置了
+ * 使用XSSFWorkbook只能读取xlsx
  * @Date 2021/7/26 15:14
  */
 public class ExcelReader {
@@ -54,8 +55,13 @@ public class ExcelReader {
         fieldList.remove(0);
 
         // 大坑，excel文件里面的数值，在变成double后可能会造成精度问题，即在cell.getNumericCellValue()时返回的double可能会有精度丢失
-        // 这里直接强制格式化把
-        DecimalFormat df = new DecimalFormat("#.000");
+        // 就是可能后面出现多个9999,这里直接强制格式化把
+        DecimalFormat df;
+       if ("Poi".equals(clazz.getSimpleName())) {
+           df = new DecimalFormat("#.0000000");
+       } else {
+           df = new DecimalFormat("#.000");
+       }
         df.setRoundingMode(RoundingMode.HALF_UP);
         //将每一行的数据注入到class实例中并保存在list中，第0行标题列不管
         for (int i = 1; i <= lastRowNum; i++) {
@@ -94,11 +100,11 @@ public class ExcelReader {
 
 
     public static void main(String[] args) {
-        File file = new File("C:\\Users\\Dell\\Desktop\\诗琳通CGCS2000控制点及设备基础数据\\四楼\\四楼WiFi.xlsx");
+        File file = new File("E:\\POIcrawler\\wuhan.xlsx");
         try {
-            ArrayList<WiFi> excelData = ExcelReader.readExcel(file, WiFi.class);
+            ArrayList<Poi> excelData = ExcelReader.readExcel(file, Poi.class);
         } catch (Exception e) {
-            System.out.println("!!!");
+            e.printStackTrace();
         }
     }
 }
