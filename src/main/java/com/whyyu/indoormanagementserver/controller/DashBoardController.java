@@ -37,6 +37,10 @@ public class DashBoardController {
     PoiService poiService;
     @Autowired
     DemService demService;
+    @Autowired
+    PanoramaService panoramaService;
+    @Autowired
+    PointCloudService pointCloudService;
 
     @GetMapping("/data")
     public CommonResult<HashMap<String, Long>> getAllTableCount() {
@@ -51,6 +55,8 @@ public class DashBoardController {
         resultMap.put("RemoteImage", remoteImageService.count());
         resultMap.put("Poi", poiService.count());
         resultMap.put("Dem", demService.count());
+        resultMap.put("Panorama", panoramaService.count());
+        resultMap.put("PointCloud", pointCloudService.count());
         return CommonResult.success(resultMap);
     }
 }

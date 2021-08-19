@@ -1,7 +1,7 @@
 package com.whyyu.indoormanagementserver.service;
 
-import com.whyyu.indoormanagementserver.entity.Plan;
-import com.whyyu.indoormanagementserver.repo.PlanRepo;
+import com.whyyu.indoormanagementserver.entity.Panorama;
+import com.whyyu.indoormanagementserver.repo.PanoramaRepo;
 import com.whyyu.indoormanagementserver.util.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,51 +23,51 @@ import java.util.List;
 /**
  * @author WhyYu
  * @Description
- * @Date 2021/8/6 17:30
+ * @Date 2021/8/19 17:52
  */
 @Service
-public class PlanService {
+public class PanoramaService {
     @Autowired
-    PlanRepo planRepo;
+    PanoramaRepo panoramaRepo;
     @Value("${file.targetPath}")
     private String targetPath;
 
-    public List<Plan> saveAll(Iterable<Plan> entities) {
-        return planRepo.saveAll(entities);
+    public List<Panorama> saveAll(Iterable<Panorama> entities) {
+        return panoramaRepo.saveAll(entities);
     }
 
-    public Page<Plan> findAllByPage(PageParam pageParam) {
+    public Page<Panorama> findAllByPage(PageParam pageParam) {
         Pageable pageable = PageRequest.of(pageParam.getPage(), pageParam.getSize());
-        return planRepo.findAll(pageable);
+        return panoramaRepo.findAll(pageable);
     }
 
-    public int deleteByPlanId(Integer planId) {
-        return planRepo.deleteByPlanId(planId);
+    public int deleteByPanoramaId(Integer panoramaId) {
+        return panoramaRepo.deleteByPanoramaId(panoramaId);
     }
 
-    public int addPlan(Plan plan) {
-        planRepo.save(plan);
+    public int addPanorama(Panorama panorama) {
+        panoramaRepo.save(panorama);
         return 1;
     }
 
-    public int updatePlan(Plan plan) {
-        return planRepo.updatePlan(plan.getIndex(), plan.getName(), plan.getPath(), plan.getLongitude(), plan.getLatitude());
+    public int updatePanorama(Panorama panorama) {
+        return panoramaRepo.updatePanorama(panorama.getIndex(), panorama.getName(), panorama.getPath(), panorama.getLongitude(), panorama.getLatitude());
     }
 
-    public List<Plan> findAll() {
-        return planRepo.findAll();
+    public List<Panorama> findAll() {
+        return panoramaRepo.findAll();
     }
 
     public long count() {
-        return planRepo.count();
+        return panoramaRepo.count();
     }
 
-    public Plan findByIndex(Integer planIndex) {
-        return planRepo.findByIndex(planIndex);
+    public Panorama findByIndex(Integer panoramaIndex) {
+        return panoramaRepo.findByIndex(panoramaIndex);
     }
 
-    public void importData(MultipartFile file, String planName, Double longitude, Double latitude) {
-        File parentFile = new File(targetPath + "Plan/" + planName);
+    public void importData(MultipartFile file, String panoramaName, Double longitude, Double latitude) {
+        File parentFile = new File(targetPath + "Panorama/" + panoramaName);
         // 先检查存储目录是否存在
         if (!parentFile.exists()) {
             parentFile.mkdirs();
@@ -83,7 +83,7 @@ public class PlanService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        planRepo.save(new Plan(planName, storingPath, longitude, latitude));
+        panoramaRepo.save(new Panorama(panoramaName, storingPath, longitude, latitude));
     }
 
     public void getImage(HttpServletResponse response, String path, String extension) {
@@ -95,7 +95,7 @@ public class PlanService {
             inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("平面缩略图请求出错");
+            System.out.println("全景缩略图请求出错");
         }
     }
 }
