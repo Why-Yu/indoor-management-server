@@ -1,6 +1,13 @@
 package com.whyyu.indoormanagementserver.entity;
 
+
+import org.springframework.data.repository.query.QueryMethod;
+
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author WhyYu
